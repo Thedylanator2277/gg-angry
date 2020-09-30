@@ -7,11 +7,12 @@ var engine, world;
 var box1, pig1,pig3;
 var backgroundImg,platform;
 var bird, slingshot;
-
+var bg="sprites/bg.png";
 var gameState = "onSling";
 
 function preload() {
-    backgroundImg = loadImage("sprites/bg.png");
+   
+timezone();
 }
 
 function setup(){
@@ -45,7 +46,10 @@ function setup(){
 }
 
 function draw(){
-    background(backgroundImg);
+    if(backgroundImg){
+        background(backgroundImg);
+    }
+   
     Engine.update(engine);
     //strokeWeight(4);
     box1.display();
@@ -85,4 +89,16 @@ function keyPressed(){
     if(keyCode === 32){
        // slingshot.attach(bird.body);
     }
+}
+  async function  timezone(){
+    var response= await fetch("http://worldtimeapi.org/api/timezone/CST6CDT");//network request
+var responseJson=await response.json();
+var hour=responseJson.datetime.slice(11,13);
+if (hour>=06&&hour<=12){
+bg="sprites/bg.png";
+}
+else{
+    bg="sprites/bg2.jpg"
+}
+backgroundImg = loadImage(bg);
 }
